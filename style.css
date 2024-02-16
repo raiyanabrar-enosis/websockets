@@ -1,0 +1,87 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+body {
+	height: 100vh;
+	font-family: Arial, sans-serif;
+	background-color: #f0f0f0;
+}
+
+#messages {
+	height: 100%;
+	padding: 2rem;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+}
+
+#userContent {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+}
+
+#messageContent {
+	display: none;
+	width: 100%;
+	height: 90%;
+	position: fixed;
+}
+
+form {
+	display: flex;
+	gap: 1rem;
+	align-items: center;
+}
+
+#messageform {
+	background-color: #fff;
+	padding: 30px;
+	border-radius: 5px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+	position: fixed;
+	width: 100%;
+	bottom: 0;
+}
+
+input[type="text"] {
+	width: 100%;
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	box-sizing: border-box;
+}
+
+button[type="submit"] {
+	background-color: #007bff;
+	color: #fff;
+	border: none;
+	padding: 10px 20px;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+button[type="submit"]:hover {
+	background-color: #0056b3;
+}
+
+.messageItem {
+	display: flex;
+	margin-block: 0.5rem;
+}
+.messageItem.other {
+	justify-content: flex-start;
+}
+.messageItem.self {
+	justify-content: flex-end;
+}
+.messageItem span {
+	padding: 1rem;
+	outline: 1px solid #333;
+	border-radius: 13px;
+}
