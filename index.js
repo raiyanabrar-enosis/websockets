@@ -6,8 +6,9 @@ socket.onopen = function (e) {
 };
 
 socket.onmessage = function (event) {
+	const msg = JSON.parse(event.data);
 	console.log(`[message] Data received from server: ${event.data}`);
-	insertMessage(event.data, false);
+	insertMessage(msg.message, false, msg.time, msg.user);
 };
 
 socket.onclose = function (event) {
@@ -29,7 +30,12 @@ function sendusername(e) {
 
 	const name = document.querySelector("#name").value;
 	username = name;
-	socket.send(name + " has joined");
+	const msgObj = {
+		user: username,
+		message: username + " has joined",
+		time: getCurrentTime(),
+	};
+	socket.send(JSON.stringify(msgObj));
 
 	document.querySelector("#userContent").style.display = "none";
 	document.querySelector("#messageContent").style.display = "block";
@@ -39,13 +45,18 @@ function sendmsg(e) {
 	e.preventDefault();
 
 	const msg = document.querySelector("#message").value;
-	socket.send(username + ": " + msg);
+	const msgObject = {
+		user: username,
+		message: msg,
+		time: getCurrentTime(),
+	};
+	socket.send(JSON.stringify(msgObject));
 	document.querySelector("#message").value = "";
 
-	insertMessage(msg, true);
+	insertMessage(msg, true, msgObject.time);
 }
 
-function insertMessage(text, self) {
+function insertMessage(text, self, time, user) {
 	const msgs = document.querySelector("#messages");
 	const outerdiv = document.createElement("div");
 	outerdiv.className = "messageItem";
@@ -56,9 +67,31 @@ function insertMessage(text, self) {
 	}
 	const textelem = document.createElement("span");
 	textelem.textContent = text;
+	const timeelem = document.createElement("p");
+	timeelem.textContent = time;
 
-	outerdiv.appendChild(textelem);
-	msgs.appendChild(outerdiv);
+	const txt = document.createElement("div");
+	txt.appendChild(timeelem);
+	txt.appendChild(textelem);
+
+	outerdiv.appendChild(txt);
+
+	const msgdiv = document.createElement("div");
+	const msguser = document.createElement("p");
+	msguser.className = "messageUser";
+	msguser.textContent = user;
+	msgdiv.appendChild(msguser);
+	msgdiv.appendChild(outerdiv);
+	msgs.appendChild(msgdiv);
+}
+
+function getCurrentTime() {
+	const date = new Date();
+
+	const hours = date.getHours().toString().padStart(2, "0");
+	const minutes = date.getMinutes().toString().padStart(2, "0");
+
+	return `${hours}:${minutes}`;
 }
 
 document.querySelector("#userform").addEventListener("submit", sendusername);

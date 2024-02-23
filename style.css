@@ -79,9 +79,20 @@ button[type="submit"]:hover {
 }
 .messageItem.self {
 	justify-content: flex-end;
+	text-align: right;
 }
-.messageItem span {
+.messageItem > div {
 	padding: 1rem;
 	outline: 1px solid #333;
 	border-radius: 13px;
+}
+.messageItem > div > p {
+	font-size: 13px;
+	margin-bottom: 8px;
+	opacity: 0.69;
+}
+.messageUser {
+	font-weight: 700;
+	margin-top: 12px;
+	margin-left: 6px;
 }
